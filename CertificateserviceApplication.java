@@ -1,41 +1,24 @@
-1. StudentserviceApplication.java (default we dont create it)
-
-package com.tns.Studentservice;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class CertificateserviceApplication
-{
-	public static void main(String[] args)
-	{
-		SpringApplication.run(StudentserviceApplication.class, args);
-	}
-}
 
 
-2.Student.java (create a class program with variables)
-
-package com.tns.Studentservice;
+package com.tns.Certificateservice;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Student
+public class certificate
 {
 	private Integer S_id;
 	private String S_name;
 	
 	
-	public Student() 
+	public certificate() 
 	{
 		super();
 	}
 	
-	public Student(Integer s_id, String s_name)
+	public certificate(Integer s_id, String s_name)
 	{
 		super();
 		S_id = s_id;
@@ -59,26 +42,20 @@ public class Student
 	@Override
 	public String toString()
 	{
-		return "Student[Student id:"+S_id+" Student name"+S_name+"]";
+		return "certificate[Student id:"+S_id+" Student name"+S_name+];
 	}
-}
 
-
-3.Student_Service_Repository.java (interface)
-
-package com.tns.Studentservice;
+package com.tns.certificateservice;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface Student_Service_Repository extends JpaRepository<Student, Integer> 
+public interface certificate_Service_Repository extends JpaRepository<Student, Integer> 
 {
 
 }
 
 
-4. Student_Service.java (create service)
-
-package com.tns.Studentservice;
+package com.tns.certificateservice;
 
 import java.util.List;
 
@@ -88,10 +65,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
 @Transactional
-public class Student_Service 
+public class certificate_Service 
 {
 	@Autowired
-	private Student_Service_Repository repo;
+	private certificate_Service_Repository repo;
 	
 	public List<Student> listAll()
 	{
@@ -103,7 +80,7 @@ public class Student_Service
 		repo.save(stud);
 	}
 	
-	public Student get(Integer s_id)
+	public certificate get(Integer s_id)
 	{
 		return repo.findById(s_id).get();
 	}
@@ -115,9 +92,7 @@ public class Student_Service
 }
 
 
-5. Student_service_Controller.java (controller)
-
-package com.tns.Studentservice;
+package com.tns.certificateservice;
 
 import javax.persistence.NoResultException;
 
@@ -133,18 +108,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Student_service_Controller
+public class certificate_service_Controller
 {
 	@Autowired(required=true)
-	private Student_Service service;
+	private certificate_Service service;
 	
-	@GetMapping("/studentservice")
+	@GetMapping("/certificateservice")
 	public java.util.List<Student> list()
 	{
 		return service.listAll();
 	}
 	
-	@GetMapping("/studentservice/{s_id}")
+	@GetMapping("/certificateservice/{s_id}")
 	public ResponseEntity<Student> get(@PathVariable Integer S_id)
 	{
 		try
@@ -157,21 +132,21 @@ public class Student_service_Controller
 			return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
 		}
 	}
-	@PostMapping("/studentservice")
+	@PostMapping("/certificateservice")
 	public void add(@RequestBody Student stud)
 	{
 		service.save(stud);
 	}
 	
-	@PutMapping("/studentservice/{s_id}")
+	@PutMapping("/certificateservice/{s_id}")
 	public ResponseEntity<?> update(@RequestBody Student stud, @PathVariable Integer S_id)
 	{
-		Student existstud=service.get(S_id);
+		certificate existstud=service.get(S_id);
 		service.save(existstud);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/studentservice/{s_id}")
+	@DeleteMapping("/certificateservice/{s_id}")
 	public void delete(@PathVariable Integer s_id)
 	{
 		service.delete(s_id);
